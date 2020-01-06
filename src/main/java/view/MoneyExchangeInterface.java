@@ -7,7 +7,7 @@ import model.exceptions.NoRatesFoundException;
 public interface MoneyExchangeInterface {
 
     void initializeUserInterface(Currencies currencies);
-    void startProcess();
+    void enableInput();
     String getCurrencyFrom();
     String getCurrencyTo();
     float getAmount();

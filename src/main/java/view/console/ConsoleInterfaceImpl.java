@@ -24,7 +24,7 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
     }
 
     @Override
-    public void startProcess() {
+    public void enableInput() {
 
         System.out.print("Choose the original currency. Type the currency code: ");
         c1 = currencyCodeFromUser();
@@ -59,7 +59,7 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
 
     @Override
     public void displayRate(String result) {
-        System.out.println(value + " " + c1 + " is " + result + " " + c2);
+        System.out.println(value + " " + c1 + " is " + result + " " + c2 + "\n");
     }
 
     @Override
@@ -77,7 +77,7 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
         for (Currency c : currencies.getCurrencies()) {
             System.out.print(c.getName() + " ");
         }
-        System.out.println("\n");
+        System.out.print("\n");
     }
 
     private boolean checkCurrencyFormat(String str) {
@@ -87,8 +87,7 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
 
     private boolean checkIfCurrencyAvailable(String str) {
         CurrencyMatcher cm = new CurrencyMatcher(currencies);
-        if (cm.convertStringToCurrency(str) == null) return false;
-        return true;
+        return cm.convertStringToCurrency(str) != null;
     }
 
     private String currencyCodeFromUser() {

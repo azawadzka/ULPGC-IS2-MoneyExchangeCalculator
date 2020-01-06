@@ -14,17 +14,15 @@ public class Controller {
     private static MoneyExchangeInterface ui;
     private static Currencies currencies;
 
-    public static void main(String[] args) {
+    public static void init() {
         ui = new ConsoleInterfaceImpl();
-        startNewSession();
-        requestCalculation();
     }
 
     public static void startNewSession() {
         try {
             currencies = new JSONCurrenciesLoader().load();
             ui.initializeUserInterface(currencies);
-            ui.startProcess();
+            ui.enableInput();
         } catch (NoCurrenciesFoundException e) {
             ui.handleNoCurrenciesFound(e);
             System.exit(1);

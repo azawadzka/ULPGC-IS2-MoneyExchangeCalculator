@@ -33,7 +33,7 @@ public class MainWindow extends JFrame implements MoneyExchangeInterface {
     }
 
     @Override
-    public void startProcess() {
+    public void enableInput() {
 
     }
 
