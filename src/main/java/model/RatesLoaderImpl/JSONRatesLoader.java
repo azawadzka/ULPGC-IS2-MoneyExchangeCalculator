@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.*;
 import model.exceptions.NoRatesFoundException;
+import view.CurrencyMatcher;
 
 import java.io.FileReader;
 import java.io.IOException;

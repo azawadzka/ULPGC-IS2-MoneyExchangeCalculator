@@ -1,6 +1,7 @@
 package model;
 
 import model.RatesLoaderImpl.JSONRatesLoader;
+import model.exceptions.IdenticalCurrenciesException;
 import model.exceptions.NoRatesFoundException;
 
 public class RateRequest {
@@ -11,8 +12,9 @@ public class RateRequest {
     Currency to;
     float value;
 
-    public RateRequest(Currencies currencies, Currency from, Currency to, float value) throws NoRatesFoundException {
+    public RateRequest(Currencies currencies, Currency from, Currency to, float value) throws NoRatesFoundException, IdenticalCurrenciesException {
         if (from == null || to == null || value == 0) throw new NoRatesFoundException();
+        if (from.equals(to)) throw new IdenticalCurrenciesException();
 
         this.from = from;
         this.to = to;

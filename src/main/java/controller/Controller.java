@@ -2,27 +2,27 @@ package controller;
 
 import model.Currencies;
 import model.CurrenciesLoaderImpl.JSONCurrenciesLoader;
-import model.CurrencyMatcher;
+import model.exceptions.IdenticalCurrenciesException;
+import view.CurrencyMatcher;
 import model.RateRequest;
 import model.exceptions.NoCurrenciesFoundException;
 import model.exceptions.NoRatesFoundException;
 import view.MoneyExchangeInterface;
-import view.console.ConsoleInterfaceImpl;
 
 public class Controller {
 
     private static MoneyExchangeInterface ui;
     private static Currencies currencies;
 
-    public static void init() {
-        ui = new ConsoleInterfaceImpl();
+    public static void init(MoneyExchangeInterface view) {
+        ui = view;
     }
 
     public static void startNewSession() {
         try {
             currencies = new JSONCurrenciesLoader().load();
             ui.initializeUserInterface(currencies);
-            ui.enableInput();
+            ui.prepareForInput();
         } catch (NoCurrenciesFoundException e) {
             ui.handleNoCurrenciesFound(e);
             System.exit(1);
@@ -41,7 +41,8 @@ public class Controller {
             ui.displayRate(Float.toString(calc));
         } catch (NoRatesFoundException e) {
             ui.handleNoRatesFound(e);
-            System.exit(1);
+        } catch (IdenticalCurrenciesException e) {
+            ui.handleIdenticalCurrencies(e);
         }
     }
 }

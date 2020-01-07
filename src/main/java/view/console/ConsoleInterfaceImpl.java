@@ -1,8 +1,10 @@
 package view.console;
 
+import controller.Controller;
 import model.Currencies;
 import model.Currency;
-import model.CurrencyMatcher;
+import model.exceptions.IdenticalCurrenciesException;
+import view.CurrencyMatcher;
 import model.exceptions.NoCurrenciesFoundException;
 import model.exceptions.NoRatesFoundException;
 import view.MoneyExchangeInterface;
@@ -17,6 +19,18 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
     String c2;
     float value;
 
+    public static void main(String[] args) {
+        new ConsoleInterfaceImpl();
+    }
+
+    public ConsoleInterfaceImpl() {
+        Controller.init(this);
+        while(true) {
+            Controller.startNewSession();
+            Controller.requestCalculation();
+        }
+    }
+
     @Override
     public void initializeUserInterface(Currencies currencies) {
         this.currencies = currencies;
@@ -24,7 +38,7 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
     }
 
     @Override
-    public void enableInput() {
+    public void prepareForInput() {
 
         System.out.print("Choose the original currency. Type the currency code: ");
         c1 = currencyCodeFromUser();
@@ -69,6 +83,11 @@ public class ConsoleInterfaceImpl implements MoneyExchangeInterface {
 
     @Override
     public void handleNoRatesFound(NoRatesFoundException e) {
+        System.err.println(e.getInfo());
+    }
+
+    @Override
+    public void handleIdenticalCurrencies(IdenticalCurrenciesException e) {
         System.err.println(e.getInfo());
     }
 
